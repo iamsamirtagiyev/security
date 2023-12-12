@@ -1,7 +1,9 @@
 nav {
+    z-index: 9999;
     position: fixed;
     top: 0;
     width: 100%;
+    transition: all .5s ease;
 }
 
 nav .top {
@@ -118,6 +120,7 @@ nav .bottom i {
 
 .cards{
     width: 100%;
+    padding-top: 50px;
 }
 
 .card-wrapper{
@@ -178,6 +181,161 @@ nav .bottom i {
     background: #fab700;
 }
 
+.container .title{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container .title h1{
+    font-size: 50px;
+}
+.container .title span{
+    color: gray;
+}
+.feature{
+    padding: 50px 0
+}
+.feature-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 20px;
+}
+.feature-wrapper .item{
+    display: flex;
+    flex-direction: column;
+    transition: all .5s ease;
+    padding: 20px;
+}
+
+.item:hover{
+    background: #fab700;
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, .5);
+}
+
+.item .title{
+    text-align: left;
+    font-size: 18px;
+    color: #000;
+}
+.item .title span{
+    color: #000;
+}
+
+.blog{
+    padding-bottom: 50px;
+}
+
+.blog-wrapper{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.post{
+    padding: 10px;
+}
+
+.date{
+    background: #000;
+    color: #fff;
+    width: 50%;
+    padding: 5px;
+    text-align: center;
+    margin: 10px 0;
+}
+.post h2{
+    font-size: 16px;
+    transition: all .5s ease;
+    cursor: pointer;
+}
+
+.post .image{
+    width: 100%;
+    overflow: hidden;
+}
+
+.post .image img{
+    width: 100%;
+    transition: all .5s ease;
+}
+
+.post:hover img{
+    transform: scale(1.1);
+}
+
+.post:hover h2{
+    color: #fab700;
+}
+
+.post p{
+    color: gray;
+    font-size: 14px;
+}
+
+.action{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    margin-top: 10px;
+    color: gray;
+}
+footer{
+    background: #04091e;
+}
+
+.footer-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #fff;
+    padding: 30px;
+    gap: 20px;
+}
+.footer-wrapper .box:first-child{
+    width: 40%;
+}
+
+.box p{
+    color: gray;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.box:last-child p{
+    text-align: center;
+}
+
+.box .input-box{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.box .input-box button{
+    background: #fab700;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+.box .input-box input{
+    width: 100%;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+.box .icons i{
+    font-size: 20px;
+    margin-left: 10px;
+    transition: all .5s ease;
+}
+.box .icons i:hover{
+    color: #fab700;
+}
+
 @media(max-width: 991px) {
     nav .bottom-wrapper {
         align-items: flex-start;
@@ -190,6 +348,12 @@ nav .bottom i {
     .card-wrapper{
         grid-template-columns: repeat(1, 1fr);
     }
+    .feature-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .blog-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media(max-width: 960px) {
@@ -199,8 +363,32 @@ nav .bottom i {
         flex-direction: row;
     }
 
-    nav .bottom-wrapper .menu {
-        display: none;
+    .menu {
+        position: absolute;
+        flex-direction: column;
+        background: rgba(0, 0, 0, .8);
+        left: -300px;
+        top: 0;
+        height: 100vh;
+        width: 300px;
+        gap: 0;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 20px;
+        transition: all .5s ease;
+    }
+
+    .menu.active {
+        left: 0;
+    }
+
+    .menu li{
+        width: 100%;
+    }
+
+    .menu li a {
+        font-weight: 600;
+        font-size: 18px;
     }
 
     nav .bottom-wrapper i {
@@ -220,5 +408,12 @@ nav .bottom i {
 
     nav .top .links i {
         display: flex;
+    }
+
+    .feature-wrapper{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .blog-wrapper{
+        grid-template-columns: repeat(1, 1fr);
     }
 }
