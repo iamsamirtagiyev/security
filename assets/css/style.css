@@ -159,6 +159,10 @@ nav .bottom i {
 
 .card .about p{
     color: gray;
+    text-align: left;
+}
+.card .about h2{
+    text-align: left;
 }
 .card i{
     position: absolute;
@@ -179,6 +183,27 @@ nav .bottom i {
 }
 .card i:hover{
     background: #fab700;
+}
+.buttons{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.card button{
+    width: 100%;
+    background: #fab700;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: all .5s ease;
+
+}
+
+.card:hover button{
+    background: #ffffff;
+    color: #000;
 }
 
 .container .title{
@@ -334,6 +359,37 @@ footer{
 }
 .box .icons i:hover{
     color: #fab700;
+}
+
+.details{
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)), #fab700;
+}
+.details-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    backdrop-filter: blur(200px);
+    gap: 50px;
+}
+
+.details-wrapper .image{
+    width: 50%;
+}
+.details-wrapper .image img{
+    width: 100%;
+}
+.details-wrapper .about{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.details-wrapper .about h1{
+    font-size: 50px;
+}
+.details-wrapper .about a{
+    background: #fab700;
 }
 
 @media(max-width: 991px) {
