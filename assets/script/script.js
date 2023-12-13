@@ -22,6 +22,8 @@ const saveBtn = document.querySelector('.add-wrapper button')
 const addButton = document.querySelector('.add-button')
 const search = document.querySelector('.search-box input')
 
+let fav = []
+
 
 window.onscroll = () => {
     if (window.scrollY > 30) {
@@ -69,7 +71,7 @@ fetch(security).then(response => response.json()).then(data => {
             if (item.name.toUpperCase().includes(search.value.toUpperCase())) {
                 cardWrapper.innerHTML += `
         <div class="card">
-            <i class="bx bx-heart favorite")></i>
+            <i class="bx bx-heart favorite"></i>
             <div class="image" onclick="goToDetails(${item.id})">
                 <img src="${item.url}" alt="card">
             </div>
@@ -88,14 +90,23 @@ fetch(security).then(response => response.json()).then(data => {
 })
 
 const addFav = (id) => {
+    if(localStorage.getItem('favourites') == null){
+        fav = []
+    }
+    else{
+        fav = JSON.parse(localStorage.getItem('favourites'))
+    }
+    fav.push(id)
+    localStorage.setItem('favourites', JSON.stringify(fav))
     axios.get(`${security}/${id}`).then(response => {
-        axios.post(favorite, {
-            name: response.data.name,
-            description: response.data.description,
-            url: response.data.url
-        })
+            axios.post(favorite, {
+                name: response.data.name,
+                description: response.data.description,
+                url: response.data.url
+            })
     })
 }
+
 
 const deleteItem = (id) => {
     axios.delete(`${security}/${id}`).then(res => window.location.reload())
