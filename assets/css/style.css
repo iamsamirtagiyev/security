@@ -194,6 +194,8 @@ nav .bottom i {
 }
 .card .image img{
     width: 100%;
+    min-height: 200px;
+    object-fit: cover;
 }
 .card .about{
     width: 100%;
@@ -234,6 +236,20 @@ nav .bottom i {
 }
 .card i:hover{
     background: #fab700;
+}
+
+.load-more {
+    font-size: 18px;
+    padding: 10px 20px;
+    background: #fab700;
+    border: solid 2px #fab700;
+    color: #fff;
+    transition: all .5s ease;
+}
+
+.load-more:hover {
+    background: #000;
+    color: #fab700;
 }
 .buttons{
     width: 100%;

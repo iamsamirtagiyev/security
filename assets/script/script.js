@@ -1,3 +1,4 @@
+
 const security = "http://localhost:3000/security"
 const favorite = "http://localhost:3000/favorites"
 
@@ -21,8 +22,9 @@ const addDesc = document.querySelector('.add-desc')
 const saveBtn = document.querySelector('.add-wrapper button')
 const addButton = document.querySelector('.add-button')
 const search = document.querySelector('.search-box input')
+const loadMore = document.querySelector('.load-more')
 
-let fav = []
+let count = 1
 
 
 window.onscroll = () => {
@@ -45,66 +47,69 @@ icon.addEventListener('click', () => {
     }
 })
 
-fetch(security).then(response => response.json()).then(data => {
-    data.forEach(item => {
-        cardWrapper.innerHTML += `
-        <div class="card">
-            <i class="bx bx-heart favorite" onclick="addFav(${item.id})")></i>
-            <div class="image" onclick="goToDetails(${item.id})">
-                <img src="${item.url}" alt="card">
-            </div>
-            <div class="about" onclick="goToDetails(${item.id})">
-                <h2 class="title">${item.name}</h2>
-                <p>${item.description}</p>
-            </div>
-            <div class="buttons">
-                <button onclick="updateFunc(${item.id})">Update</button>
-                <button onclick="deleteItem(${item.id})">Delete</button>
-            </div>
-        </div>`
-
-    });
-
-    search.oninput = () => {
-        cardWrapper.innerHTML = ''
+const showData = (page) => {
+    fetch(`${security}?_page=${page}&_limit=3`).then(response => response.json()).then(data => {
         data.forEach(item => {
-            if (item.name.toUpperCase().includes(search.value.toUpperCase())) {
-                cardWrapper.innerHTML += `
-        <div class="card">
-            <i class="bx bx-heart favorite"></i>
-            <div class="image" onclick="goToDetails(${item.id})">
-                <img src="${item.url}" alt="card">
-            </div>
-            <div class="about" onclick="goToDetails(${item.id})">
-                <h2 class="title">${item.name}</h2>
-                <p>${item.description}</p>
-            </div>
-            <div class="buttons">
-                <button onclick="updateFunc(${item.id})">Update</button>
-                <button onclick="deleteItem(${item.id})">Delete</button>
-            </div>
-        </div>`
-            }
-        })
-    }
-})
+            cardWrapper.innerHTML += `
+            <div class="card">
+                <i class="bx bx-heart" onclick="addFav(${item.id})"></i>
+                <div class="image" onclick="goToDetails(${item.id})">
+                    <img src="${item.url}" alt="card">
+                </div>
+                <div class="about" onclick="goToDetails(${item.id})">
+                    <h2 class="title">${item.name}</h2>
+                    <p>${item.description}</p>
+                </div>
+                <div class="buttons">
+                    <button onclick="updateFunc(${item.id})">Update</button>
+                    <button onclick="deleteItem(${item.id})">Delete</button>
+                </div>
+            </div>`
 
-const addFav = (id) => {
-    if(localStorage.getItem('favourites') == null){
-        fav = []
+            
+        });
+
+        search.oninput = () => {
+            cardWrapper.innerHTML = ''
+            data.forEach(item => {
+                if (item.name.toUpperCase().includes(search.value.toUpperCase())) {
+                    cardWrapper.innerHTML += `
+            <div class="card">
+                <i class="bx bx-heart"></i>
+                <div class="image" onclick="goToDetails(${item.id})">
+                    <img src="${item.url}" alt="card">
+                </div>
+                <div class="about" onclick="goToDetails(${item.id})">
+                    <h2 class="title">${item.name}</h2>
+                    <p>${item.description}</p>
+                </div>
+                <div class="buttons">
+                    <button onclick="updateFunc(${item.id})">Update</button>
+                    <button onclick="deleteItem(${item.id})">Delete</button>
+                </div>
+            </div>`
+                }
+            })
+        }       
+    })
+}
+
+showData(count)
+
+loadMore.onclick = () => {
+    count++
+    showData(count)
+}
+
+function addFav(id){
+    if(event.target.classList.contains('favourites')){
+        event.target.classList.remove('favourite')
+        event.target.classList.replace('bxs-heart', 'bx-heart')
     }
     else{
-        fav = JSON.parse(localStorage.getItem('favourites'))
+        event.target.classList.add('favourite')
+        event.target.classList.replace('bx-heart', 'bxs-heart')
     }
-    fav.push(id)
-    localStorage.setItem('favourites', JSON.stringify(fav))
-    axios.get(`${security}/${id}`).then(response => {
-            axios.post(favorite, {
-                name: response.data.name,
-                description: response.data.description,
-                url: response.data.url
-            })
-    })
 }
 
 
@@ -183,3 +188,4 @@ saveBtn.onclick = () => {
         alert('Xanaları doldurmağınız şərtdir!!!')
     }
 }
+
