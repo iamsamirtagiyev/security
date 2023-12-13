@@ -1,5 +1,5 @@
 const security = "http://localhost:3000/security"
-const favorite = "http://localhost:3000/favorite"
+const favorite = "http://localhost:3000/favorites"
 
 const nav = document.querySelector('nav')
 const icon = document.querySelector('.icon')
@@ -12,6 +12,15 @@ const updImg = document.querySelector('.upd-img img')
 const updName = document.querySelector('.upd-name')
 const updDesc = document.querySelector('.upd-desc')
 const updBtn = document.querySelector('.update-wrapper button')
+const add = document.querySelector('.add')
+const addWrapper = document.querySelector('.add-wrapper')
+const addFile = document.querySelector('#add-img')
+const addImg = document.querySelector('.add-img img')
+const addName = document.querySelector('.add-name')
+const addDesc = document.querySelector('.add-desc')
+const saveBtn = document.querySelector('.add-wrapper button')
+const addButton = document.querySelector('.add-button')
+const search = document.querySelector('.search-box input')
 
 
 window.onscroll = () => {
@@ -38,6 +47,28 @@ fetch(security).then(response => response.json()).then(data => {
     data.forEach(item => {
         cardWrapper.innerHTML += `
         <div class="card">
+            <i class="bx bx-heart favorite" onclick="addFav(${item.id})")></i>
+            <div class="image" onclick="goToDetails(${item.id})">
+                <img src="${item.url}" alt="card">
+            </div>
+            <div class="about" onclick="goToDetails(${item.id})">
+                <h2 class="title">${item.name}</h2>
+                <p>${item.description}</p>
+            </div>
+            <div class="buttons">
+                <button onclick="updateFunc(${item.id})">Update</button>
+                <button onclick="deleteItem(${item.id})">Delete</button>
+            </div>
+        </div>`
+
+    });
+
+    search.oninput = () => {
+        cardWrapper.innerHTML = ''
+        data.forEach(item => {
+            if (item.name.toUpperCase().includes(search.value.toUpperCase())) {
+                cardWrapper.innerHTML += `
+        <div class="card">
             <i class="bx bx-heart favorite")></i>
             <div class="image" onclick="goToDetails(${item.id})">
                 <img src="${item.url}" alt="card">
@@ -51,8 +82,20 @@ fetch(security).then(response => response.json()).then(data => {
                 <button onclick="deleteItem(${item.id})">Delete</button>
             </div>
         </div>`
-    });
+            }
+        })
+    }
 })
+
+const addFav = (id) => {
+    axios.get(`${security}/${id}`).then(response => {
+        axios.post(favorite, {
+            name: response.data.name,
+            description: response.data.description,
+            url: response.data.url
+        })
+    })
+}
 
 const deleteItem = (id) => {
     axios.delete(`${security}/${id}`).then(res => window.location.reload())
@@ -71,7 +114,7 @@ const updateFunc = (id) => {
     })
 
     updBtn.onclick = () => {
-        if(updName.value != '' && updDesc.value != ''){
+        if (updName.value != '' && updDesc.value != '') {
             let reader = new FileReader()
             reader.readAsDataURL(updFile.files[0])
             reader.onload = (e) => {
@@ -82,7 +125,7 @@ const updateFunc = (id) => {
                 })
             }
         }
-        else{
+        else {
             alert('Xanaları doldurmağınız şərtdir!!!')
         }
     }
@@ -94,7 +137,38 @@ update.onclick = (e) => {
         updateWrapper.classList.remove('active')
     }
 }
+add.onclick = (e) => {
+    if (e.target.classList.contains('container')) {
+        add.classList.remove('active')
+        addWrapper.classList.remove('active')
+    }
+}
 
 updFile.onchange = () => {
     updImg.src = URL.createObjectURL(updFile.files[0])
+}
+addFile.onchange = () => {
+    addImg.src = URL.createObjectURL(addFile.files[0])
+}
+
+addButton.onclick = () => {
+    add.classList.add('active')
+    addWrapper.classList.add('active')
+}
+
+saveBtn.onclick = () => {
+    if (addName.value != '' && addDesc.value != '') {
+        let reader = new FileReader()
+        reader.readAsDataURL(addFile.files[0])
+        reader.onload = (e) => {
+            axios.post(security, {
+                url: e.target.result,
+                name: addName.value,
+                description: addDesc.value
+            }).then(response => window.location.reload())
+        }
+    }
+    else {
+        alert('Xanaları doldurmağınız şərtdir!!!')
+    }
 }

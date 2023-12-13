@@ -1,3 +1,24 @@
+.add-button{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 25px;
+    color: #fff;
+    background: #fab700;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+
+.add-button:hover{
+    background: #bb8c09;
+}
+
 nav {
     z-index: 9999;
     position: fixed;
@@ -131,15 +152,39 @@ nav .bottom i {
     padding: 20px;
 }
 
+.search-box{
+    width: 100%;
+    max-width: 50%;
+    background: #e3e3e3;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all .5s ease;
+    border-radius: 5px;
+}
+
+.search-box input{
+    font-size: 18px;
+    padding: 10px 20xp;
+    width: 100%;
+    background: transparent;
+}
+.search-box i{
+    font-size: 25px;
+}
+
 .card{
     position: relative;
     transition: all .5s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     gap: 10px;
     padding: 20px;
+    min-height: 540px;
 }
 .card:hover{
     background: #fab700;
@@ -160,9 +205,15 @@ nav .bottom i {
 .card .about p{
     color: gray;
     text-align: left;
+    height: 140px;
+    width: 100%;
+    max-width: 314px;
+    
 }
 .card .about h2{
-    text-align: left;
+    display: flex;
+    width: 100%;
+    max-width: 314px;
 }
 .card i{
     position: absolute;
@@ -410,7 +461,7 @@ footer{
     color: #fab700;
 }
 
-.update{
+.update, .add{
     z-index: 99999;
     backdrop-filter: blur(20px);
     position: fixed;
@@ -424,16 +475,16 @@ footer{
     transition: all .5s ease;
 }
 
-.update.active{
+.update.active, .add.active{
     opacity: 1;
     pointer-events: all;
 }
 
-.update .container{
+.update .container, .add .container{
     min-height: 100vh;
 }
 
-.update-wrapper{
+.update-wrapper, .add-wrapper{
     width: 100%;
     max-width: 500px;
     background: #fff;
@@ -450,22 +501,22 @@ footer{
     transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
 }
 
-.update-wrapper.active{
+.update-wrapper.active, .add-wrapper.active{
     transform: scale(1);
 }
 
-.update-wrapper .upd-img{
+.update-wrapper .upd-img, .add-wrapper .add-img{
     width: 100%;
     position: relative;
 }
 
-.update .upd-img img{
+.update .upd-img img, .add .add-img img{
     width: 100%;
     height: 300px;
     object-fit: cover;
 }
 
-.update-wrapper .upd-about{
+.update-wrapper .upd-about, .add-wrapper .add-about{
     display: flex;
     width: 100%;
     align-items: center;
@@ -474,7 +525,7 @@ footer{
     gap: 10px;
 }
 
-.update-wrapper .upd-about input{
+.update-wrapper .upd-about input, .add-wrapper .add-about input{
     font-size: 18px;
     padding: 10px 20px;
     width: 100%;
@@ -482,7 +533,7 @@ footer{
     border-radius: 10px;
 }
 
-.update-wrapper button{
+.update-wrapper button, .add-wrapper button{
     background: #fab700;
     font-size: 18px;
     padding: 10px 20px;
@@ -496,11 +547,12 @@ input[type="file"]{
     display: none;
 }
 
-.update-wrapper button:hover{
+.update-wrapper button:hover, .add-wrapper button:hover{
     background: #bb8c09;
 }
 
-.update-wrapper i{
+.update-wrapper i,
+.add-wrapper i {
     position: absolute;
     background: rgba(0, 0, 0, .8);
     width: 100%;
@@ -515,7 +567,7 @@ input[type="file"]{
     transition: all .5s ease;
 }
 
-.upd-img:hover i{
+.upd-img:hover i, .add-img:hover i{
     opacity: 1;
 }
 
