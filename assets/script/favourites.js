@@ -1,5 +1,4 @@
 
-const security = "http://localhost:3000/security"
 const favorite = "http://localhost:3000/favorites"
 
 const nav = document.querySelector('nav')
@@ -13,14 +12,6 @@ const updImg = document.querySelector('.upd-img img')
 const updName = document.querySelector('.upd-name')
 const updDesc = document.querySelector('.upd-desc')
 const updBtn = document.querySelector('.update-wrapper button')
-const add = document.querySelector('.add')
-const addWrapper = document.querySelector('.add-wrapper')
-const addFile = document.querySelector('#add-img')
-const addImg = document.querySelector('.add-img img')
-const addName = document.querySelector('.add-name')
-const addDesc = document.querySelector('.add-desc')
-const saveBtn = document.querySelector('.add-wrapper button')
-const addButton = document.querySelector('.add-button')
 const search = document.querySelector('.search-box input')
 const loadMore = document.querySelector('.load-more')
 
@@ -49,7 +40,7 @@ icon.addEventListener('click', () => {
 })
 
 const showData = (page) => {
-    fetch(`${security}?_page=${page}&_limit=3`).then(response => response.json()).then(data => {
+    fetch(`${favorite}?_page=${page}&_limit=3`).then(response => response.json()).then(data => {
         data.forEach(item => {
             cardWrapper.innerHTML += `
             <div class="card">
@@ -155,7 +146,7 @@ const updateFunc = (id) => {
     update.classList.add('active')
     updateWrapper.classList.add('active')
 
-    fetch(`${security}/${id}`).then(response => response.json()).then(data => {
+    fetch(`${favorite}/${id}`).then(response => response.json()).then(data => {
         updImg.src = data.url
         updName.value = data.name
         updDesc.value = data.description
@@ -166,7 +157,7 @@ const updateFunc = (id) => {
             let reader = new FileReader()
             reader.readAsDataURL(updFile.files[0])
             reader.onload = (e) => {
-                axios.patch(`${security}/${id}`, {
+                axios.patch(`${favorite}/${id}`, {
                     url: e.target.result,
                     name: updName.value,
                     description: updDesc.value
@@ -185,39 +176,14 @@ update.onclick = (e) => {
         updateWrapper.classList.remove('active')
     }
 }
-add.onclick = (e) => {
-    if (e.target.classList.contains('container')) {
-        add.classList.remove('active')
-        addWrapper.classList.remove('active')
-    }
-}
 
 updFile.onchange = () => {
     updImg.src = URL.createObjectURL(updFile.files[0])
 }
-addFile.onchange = () => {
-    addImg.src = URL.createObjectURL(addFile.files[0])
-}
+
 
 addButton.onclick = () => {
     add.classList.add('active')
     addWrapper.classList.add('active')
-}
-
-saveBtn.onclick = () => {
-    if (addName.value != '' && addDesc.value != '') {
-        let reader = new FileReader()
-        reader.readAsDataURL(addFile.files[0])
-        reader.onload = (e) => {
-            axios.post(security, {
-                url: e.target.result,
-                name: addName.value,
-                description: addDesc.value
-            }).then(response => window.location.reload())
-        }
-    }
-    else {
-        alert('Xanaları doldurmağınız şərtdir!!!')
-    }
 }
 

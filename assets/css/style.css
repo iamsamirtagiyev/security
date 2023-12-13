@@ -150,6 +150,7 @@ nav .bottom i {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
+    min-height: 100vh;
 }
 
 .search-box{
@@ -192,6 +193,7 @@ nav .bottom i {
 .card .image{
     width: 100%;
 }
+
 .card .image img{
     width: 100%;
     min-height: 200px;
