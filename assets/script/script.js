@@ -26,6 +26,7 @@ const loadMore = document.querySelector('.load-more')
 
 let count = 1
 let fav = []
+let searchArray = []
 
 
 window.onscroll = () => {
@@ -50,6 +51,7 @@ icon.addEventListener('click', () => {
 
 const showData = (page) => {
     fetch(`${security}?_page=${page}&_limit=3`).then(response => response.json()).then(data => {
+        searchArray.push(data)
         data.forEach(item => {
             cardWrapper.innerHTML += `
             <div class="card">
@@ -70,6 +72,8 @@ const showData = (page) => {
 
         });
 
+        return searchArray.flat()
+
         JSON.parse(localStorage.getItem('favourites')).forEach(localId => {
             document.querySelectorAll('.fav-icon').forEach(icon => {
                 if(icon.id == localId){
@@ -79,13 +83,19 @@ const showData = (page) => {
             })
         })
 
-        search.oninput = () => {
-            cardWrapper.innerHTML = ''
-            data.forEach(item => {
-                if (item.name.toUpperCase().includes(search.value.toUpperCase())) {
+        
+    }) .then(data => {
+        search.addEventListener('input', (e) => {
+            let search = e.target.value;
+            console.log(search);
+            if (search) {
+                data.filter(card => {
+                    cardWrapper.innerHTML = ''
+                    return card.name.toLowerCase().includes(search.toLowerCase())
+                }).forEach(item => {
                     cardWrapper.innerHTML += `
             <div class="card">
-                <i class="bx bx-heart" id="${item.id}"></i>
+                <i class="bx bx-heart fav-icon" id="${item.id}" onclick="addFav(${item.id})"></i>
                 <div class="image" onclick="goToDetails(${item.id})">
                     <img src="${item.url}" alt="card">
                 </div>
@@ -98,9 +108,30 @@ const showData = (page) => {
                     <button onclick="deleteItem(${item.id})">Delete</button>
                 </div>
             </div>`
-                }
-            })
-        }
+                })
+            }
+            else {
+                cardWrapper.innerHTML = ''
+                data.forEach(item => {
+                    cardWrapper.innerHTML += `
+            <div class="card">
+                <i class="bx bx-heart fav-icon" id="${item.id}" onclick="addFav(${item.id})"></i>
+                <div class="image" onclick="goToDetails(${item.id})">
+                    <img src="${item.url}" alt="card">
+                </div>
+                <div class="about" onclick="goToDetails(${item.id})">
+                    <h2 class="title">${item.name}</h2>
+                    <p>${item.description}</p>
+                </div>
+                <div class="buttons">
+                    <button onclick="updateFunc(${item.id})">Update</button>
+                    <button onclick="deleteItem(${item.id})">Delete</button>
+                </div>
+            </div>`
+                })
+            }
+        })
+
     })
 }
 

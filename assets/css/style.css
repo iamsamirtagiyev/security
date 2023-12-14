@@ -90,6 +90,9 @@ nav .bottom .menu li a {
     color: #fff;
     font-size: 14px;
 }
+nav .bottom .menu li a.active{
+    color: #fab700;
+}
 
 nav .bottom i {
     color: #fff;
